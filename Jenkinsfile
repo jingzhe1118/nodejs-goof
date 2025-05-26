@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 18'
+        nodejs 'NodeJS 18'  // 确保你已在 Jenkins -> Global Tool Configuration 中配置该名称
     }
 
     environment {
@@ -26,7 +26,10 @@ pipeline {
         stage('Test') {
             steps {
                 withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
-                    bat 'npx snyk test'
+                    bat """
+                        echo Running Snyk test with token: %SNYK_TOKEN%
+                        npx snyk test
+                    """
                 }
             }
         }

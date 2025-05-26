@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        nodejs 'NodeJS 18'
+        nodejs 'NodeJS 18'  // 确保你在 Jenkins Global Tool Configuration 中配置了 NodeJS 18
     }
 
     environment {
@@ -45,7 +45,13 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    bat 'npx sonar-scanner'
+                    bat '''
+                        npx sonar-scanner ^
+                          -Dsonar.projectKey=jingzhe1118_nodejs-goof ^
+                          -Dsonar.organization=jingzhe1118 ^
+                          -Dsonar.host.url=https://sonarcloud.io ^
+                          -Dsonar.login=%SONAR_TOKEN%
+                    '''
                 }
             }
         }

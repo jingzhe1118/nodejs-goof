@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
-        SNYK_TOKEN = credentials('SNYK_TOKEN')  
+        SNYK_TOKEN = credentials('SNYK_TOKEN')
     }
 
     stages {
@@ -25,11 +25,10 @@ pipeline {
 
         stage('Test') {
             steps {
-                
-                bat '''
-                    set SNYK_TOKEN=%SNYK_TOKEN%
-                    npx snyk test
-                '''
+                withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
+                    bat 'npx snyk auth %SNYK_TOKEN%'
+                    bat 'npx snyk test'
+                }
             }
         }
 

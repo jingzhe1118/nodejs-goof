@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jingzhe1118/nodejs-goof.git'
+                checkout scm
             }
         }
 

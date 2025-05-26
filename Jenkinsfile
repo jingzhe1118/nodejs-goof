@@ -24,10 +24,12 @@ pipeline {
         }
 
         stage('Test') {
+            environment {
+                SNYK_TOKEN = "${env.SNYK_TOKEN}"
+            }
             steps {
-                withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
-                    bat 'npx snyk auth %SNYK_TOKEN% && npx snyk test'
-                }
+                bat 'npx snyk auth --token %SNYK_TOKEN%'
+                bat 'npx snyk test'
             }
         }
 

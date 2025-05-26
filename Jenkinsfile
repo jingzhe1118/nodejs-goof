@@ -25,7 +25,10 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat "set SNYK_TOKEN=${SNYK_TOKEN} && npx snyk test"
+                bat """
+                    set SNYK_TOKEN=%SNYK_TOKEN%
+                    npx snyk test
+                """
             }
         }
 

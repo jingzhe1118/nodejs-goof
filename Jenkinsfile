@@ -23,16 +23,17 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
-                    bat """
-                        echo Running Snyk test with token: %SNYK_TOKEN%
-                        npx snyk test
-                    """
-                }
-            }
-        }
+       stage('Test') {
+  steps {
+    withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
+      bat """
+        echo Running Snyk test with token: %SNYK_TOKEN%
+        npx snyk auth %SNYK_TOKEN%
+        npx snyk test
+      """
+    }
+  }
+}
 
         stage('SonarCloud Analysis') {
             steps {

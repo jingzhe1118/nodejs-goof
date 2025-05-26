@@ -36,7 +36,7 @@ pipeline {
                 withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
                     bat """
                         echo Running Snyk test with token: %SNYK_TOKEN%
-                        npx snyk test || exit 0
+                        npx snyk test || echo "Snyk test failed, but continuing pipeline"
                     """
                 }
             }

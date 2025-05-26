@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
-        SNYK_TOKEN = credentials('SNYK_TOKEN')
+        SNYK_TOKEN = credentials('SNYK_TOKEN')  // 这里使用你已配置的 token
     }
 
     stages {
@@ -25,10 +25,10 @@ pipeline {
 
         stage('Test') {
             steps {
-                withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
-                    bat 'npx snyk auth %SNYK_TOKEN%'
-                    bat 'npx snyk test'
-                }
+                bat '''
+                set SNYK_TOKEN=${SNYK_TOKEN}
+                npx snyk test
+                '''
             }
         }
 

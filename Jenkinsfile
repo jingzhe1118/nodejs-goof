@@ -7,12 +7,13 @@ pipeline {
 
     environment {
         SONAR_TOKEN = credentials('SONAR_TOKEN')
+        SNYK_TOKEN = credentials('SNYK_TOKEN')  
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main', url: 'https://github.com/jingzhe1118/nodejs-goof.git'
             }
         }
 
@@ -24,7 +25,9 @@ pipeline {
 
         stage('Test') {
             steps {
-                bat 'npm test'
+                withEnv(["SNYK_TOKEN=${SNYK_TOKEN}"]) {
+                    bat 'npx snyk test'  
+                }
             }
         }
 
